@@ -89,7 +89,7 @@ export default function MarketPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-right font-mono">
-                    ${stock.price.toFixed(2)}
+                    ₹{stock.price.toFixed(2)}
                   </TableCell>
                   <TableCell
                     className={`text-right font-medium ${

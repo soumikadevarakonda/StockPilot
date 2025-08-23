@@ -54,7 +54,7 @@ export function TradeModal({ isOpen, onClose, stock }: TradeModalProps) {
             Trade {stock.ticker} - {stock.name}
           </DialogTitle>
           <DialogDescription>
-            Current Price: ${stock.price.toFixed(2)}
+            Current Price: ₹{stock.price.toFixed(2)}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -90,7 +90,7 @@ export function TradeModal({ isOpen, onClose, stock }: TradeModalProps) {
           </div>
            <div className="grid grid-cols-4 items-center gap-4">
              <Label className="text-right">Estimated</Label>
-             <div className="col-span-3 font-semibold">${estimatedCost}</div>
+             <div className="col-span-3 font-semibold">₹{estimatedCost}</div>
            </div>
         </div>
         <DialogFooter>

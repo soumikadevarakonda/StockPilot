@@ -60,7 +60,7 @@ export function PortfolioGrowthChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => `$${value / 1000}k`}
+              tickFormatter={(value) => `₹${value / 1000}k`}
             />
             <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
             <defs>

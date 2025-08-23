@@ -15,9 +15,9 @@ import { portfolioSummary } from "@/lib/mock-data"
 
 export default function DashboardPage() {
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("en-IN", {
       style: "currency",
-      currency: "USD",
+      currency: "INR",
     }).format(amount)
   }
 
