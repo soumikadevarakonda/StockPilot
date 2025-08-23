@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from "next/link"
@@ -12,11 +13,17 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ArrowLeft } from "lucide-react"
 
 export default function SignupPage() {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-background">
-      <div className="absolute top-4 right-4">
+       <div className="absolute top-4 right-4 flex items-center gap-2">
+        <Button variant="outline" size="icon" asChild>
+            <Link href="/">
+                <ArrowLeft />
+            </Link>
+        </Button>
         <ThemeToggle />
       </div>
        <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
