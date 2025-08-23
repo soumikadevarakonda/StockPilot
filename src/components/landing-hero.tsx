@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 
 export function LandingHero() {
   return (
-    <section className="relative pt-24 md:pt-32">
+    <section className="relative pt-20 md:pt-28">
        <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-3xl"></div>
       <div className="container mx-auto px-4 md:px-6">
@@ -31,7 +31,7 @@ export function LandingHero() {
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button size="lg" asChild>
-                <Link href="/dashboard">
+                <Link href="/login">
                   Get Started <ArrowRight className="ml-2" />
                 </Link>
               </Button>

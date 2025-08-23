@@ -53,7 +53,7 @@ const itemVariants = {
 
 export function LandingTestimonials() {
   return (
-    <section className="py-20 md:py-32">
+    <section className="py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           className="mb-12 text-center"

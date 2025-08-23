@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 export function LandingCTA() {
   return (
-    <section className="py-20 md:py-32 bg-primary/5">
+    <section className="py-16 md:py-24 bg-primary/5">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           className="mx-auto max-w-2xl text-center"
@@ -25,7 +25,7 @@ export function LandingCTA() {
           </p>
           <div className="mt-8">
             <Button size="lg" asChild>
-              <Link href="/dashboard">
+              <Link href="/login">
                 Start Trading for Free <ArrowRight className="ml-2" />
               </Link>
             </Button>
