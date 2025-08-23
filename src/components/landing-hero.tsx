@@ -48,7 +48,7 @@ export function LandingHero() {
               width={600}
               height={400}
               className="rounded-lg shadow-2xl"
-              data-ai-hint="stock market dashboard"
+              data-ai-hint="investment portfolio app"
             />
           </motion.div>
         </div>
