@@ -16,12 +16,6 @@ export function LandingFooter() {
           © {new Date().getFullYear()} StockPilot. All rights reserved.
         </p>
         <nav className="flex gap-4 sm:gap-6">
-          <Link href="#" className="text-sm hover:underline">
-            Terms of Service
-          </Link>
-          <Link href="#" className="text-sm hover:underline">
-            Privacy Policy
-          </Link>
         </nav>
       </div>
     </footer>

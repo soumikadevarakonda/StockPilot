@@ -31,12 +31,9 @@ export function LandingHero() {
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button size="lg" asChild>
-                <Link href="/signup">
-                  Get Started Free <ArrowRight className="ml-2" />
+                <Link href="/dashboard">
+                  Get Started <ArrowRight className="ml-2" />
                 </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/dashboard">Explore Dashboard</Link>
               </Button>
             </div>
           </motion.div>

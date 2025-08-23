@@ -7,7 +7,6 @@ import { motion } from "framer-motion"
 import { Rocket } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export function LandingHeader() {
@@ -36,15 +35,9 @@ export function LandingHeader() {
           <Rocket className="h-6 w-6 text-primary" />
           <span className="text-lg font-semibold">StockPilot</span>
         </Link>
-        <nav className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
           <ThemeToggle />
-          <Button variant="ghost" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/signup">Sign Up</Link>
-          </Button>
-        </nav>
+        </div>
       </div>
     </motion.header>
   )
