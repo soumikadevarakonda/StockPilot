@@ -1,6 +1,9 @@
+
 "use client"
 
+import * as React from "react"
 import { motion } from "framer-motion"
+import { DollarSign, PlusCircle, Wallet } from "lucide-react"
 
 import {
   Card,
@@ -17,10 +20,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
 import { StockSparklineChart } from "@/components/stock-sparkline-chart"
-import { portfolioHoldings } from "@/lib/mock-data"
+import { portfolioHoldings, portfolioSummary } from "@/lib/mock-data"
+import { AddFundsModal } from "@/components/add-funds-modal"
+import { TransactionHistory } from "@/components/transaction-history"
 
 export default function PortfolioPage() {
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -33,10 +41,47 @@ export default function PortfolioPage() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      className="flex flex-col gap-6"
     >
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Available Balance
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {formatCurrency(portfolioSummary.balance)}
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Invested Amount
+            </CardTitle>
+            <Wallet className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {formatCurrency(portfolioSummary.invested)}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="flex flex-col justify-center">
+           <CardContent className="p-6">
+             <Button className="w-full" onClick={() => setIsModalOpen(true)}>
+                <PlusCircle className="mr-2 h-4 w-4" /> Add Funds
+            </Button>
+           </CardContent>
+        </Card>
+      </div>
+
       <Card>
         <CardHeader>
-          <CardTitle>My Portfolio</CardTitle>
+          <CardTitle>My Holdings</CardTitle>
           <CardDescription>
             A detailed overview of your current stock holdings.
           </CardDescription>
@@ -85,6 +130,13 @@ export default function PortfolioPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <TransactionHistory />
+
+      <AddFundsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </motion.div>
   )
 }

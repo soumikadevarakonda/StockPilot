@@ -131,3 +131,46 @@ export const portfolioHoldings = [
     ],
   },
 ];
+
+export const transactionHistory = [
+  {
+    id: "txn_1",
+    date: "2025-06-15",
+    type: "DEPOSIT",
+    description: "Initial virtual funds",
+    amount: 100000 * USD_TO_INR_RATE,
+    status: "Completed",
+  },
+  {
+    id: "txn_2",
+    date: "2025-06-16",
+    type: "BUY",
+    description: "Buy 50 AAPL @ ₹12517.25",
+    amount: -50 * 150.75 * USD_TO_INR_RATE,
+    status: "Completed",
+  },
+    {
+    id: "txn_3",
+    date: "2025-06-17",
+    type: "BUY",
+    description: "Buy 10 GOOGL @ ₹240700.00",
+    amount: -10 * 2900.0 * USD_TO_INR_RATE,
+    status: "Completed",
+  },
+  {
+    id: "txn_4",
+    date: "2025-06-18",
+    type: "SELL",
+    description: "Sell 5 TSLA @ ₹70591.50",
+    amount: 5 * 850.50 * USD_TO_INR_RATE,
+    status: "Completed",
+  },
+  {
+    id: "txn_5",
+    date: "2025-06-20",
+    type: "DEPOSIT",
+    description: "Added virtual funds",
+    amount: 10000 * USD_TO_INR_RATE,
+    status: "Completed",
+  },
+];
