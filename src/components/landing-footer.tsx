@@ -12,7 +12,7 @@ export function LandingFooter() {
           <span className="text-lg font-semibold">StockPilot</span>
         </div>
         <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} StockPilot. All rights reserved.
+          © 2025 StockPilot. All rights reserved.
         </p>
         <div className="text-sm text-muted-foreground">
           Made with ❤️ for traders.

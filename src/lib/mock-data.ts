@@ -14,12 +14,12 @@ export const portfolioSummary = {
 };
 
 export const portfolioGrowth = [
-  { date: 'Jan 24', value: 73000 * USD_TO_INR_RATE },
-  { date: 'Feb 24', value: 74500 * USD_TO_INR_RATE },
-  { date: 'Mar 24', value: 78000 * USD_TO_INR_RATE },
-  { date: 'Apr 24', value: 77000 * USD_TO_INR_RATE },
-  { date: 'May 24', value: 79000 * USD_TO_INR_RATE },
-  { date: 'Jun 24', value: 81250 * USD_TO_INR_RATE },
+  { date: 'Jan 25', value: 73000 * USD_TO_INR_RATE },
+  { date: 'Feb 25', value: 74500 * USD_TO_INR_RATE },
+  { date: 'Mar 25', value: 78000 * USD_TO_INR_RATE },
+  { date: 'Apr 25', value: 77000 * USD_TO_INR_RATE },
+  { date: 'May 25', value: 79000 * USD_TO_INR_RATE },
+  { date: 'Jun 25', value: 81250 * USD_TO_INR_RATE },
 ];
 
 export const stockAllocation = [
