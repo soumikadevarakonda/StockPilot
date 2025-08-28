@@ -5,13 +5,14 @@ import * as React from "react"
 import { notFound, useParams } from "next/navigation"
 import { motion } from "framer-motion"
 import {
-  Area,
-  AreaChart,
-  CartesianGrid,
+  ComposedChart,
+  Bar,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Cell,
 } from "recharts"
 import { DollarSign, Percent, BarChart, Briefcase } from "lucide-react"
 
@@ -26,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button"
 import {
   ChartContainer,
+  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { TradeModal } from "@/components/trade-modal"
@@ -71,9 +73,30 @@ export default function StockDetailPage() {
   const chartConfig = {
     value: {
       label: "Price",
-      color: stock.isPositive ? "hsl(var(--primary))" : "hsl(var(--destructive))",
     },
   }
+  
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="rounded-lg border bg-background p-2 shadow-sm">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <div className="font-bold col-span-2">{label}</div>
+            <div className="text-sm text-muted-foreground">Open:</div>
+            <div className="text-sm font-mono text-right">{formatCurrency(data.open)}</div>
+            <div className="text-sm text-muted-foreground">High:</div>
+            <div className="text-sm font-mono text-right">{formatCurrency(data.high)}</div>
+            <div className="text-sm text-muted-foreground">Low:</div>
+            <div className="text-sm font-mono text-right">{formatCurrency(data.low)}</div>
+            <div className="text-sm text-muted-foreground">Close:</div>
+            <div className="text-sm font-mono text-right">{formatCurrency(data.close)}</div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <motion.div
@@ -112,23 +135,9 @@ export default function StockDetailPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-[300px] w-full">
+          <ChartContainer config={chartConfig} className="h-[400px] w-full">
             <ResponsiveContainer>
-              <AreaChart data={stock.history}>
-                <defs>
-                  <linearGradient id={`fill-${stock.ticker}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor={chartConfig.value.color}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={chartConfig.value.color}
-                      stopOpacity={0.1}
-                    />
-                  </linearGradient>
-                </defs>
+              <ComposedChart data={stock.history}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="date"
@@ -137,22 +146,30 @@ export default function StockDetailPage() {
                   tickMargin={8}
                 />
                 <YAxis
-                  domain={['dataMin - 10', 'dataMax + 10']}
+                  domain={['dataMin - 20', 'dataMax + 20']}
                   hide
                 />
                 <Tooltip
-                  cursor={true}
-                  content={<ChartTooltipContent indicator="dot" />}
-                  formatter={(value) => formatCurrency(Number(value))}
+                  cursor={{ strokeDasharray: '3 3' }}
+                  content={<CustomTooltip />}
                 />
-                <Area
-                  dataKey="value"
-                  type="natural"
-                  fill={`url(#fill-${stock.ticker})`}
-                  stroke={chartConfig.value.color}
-                  stackId="a"
-                />
-              </AreaChart>
+                <Bar dataKey="low" stackId="a" fill="transparent" />
+                <Bar dataKey="open" stackId="b" barSize={2}>
+                    {stock.history.map((entry, index) => (
+                         <Cell key={`cell-${index}`} fill={entry.close > entry.open ? "hsl(var(--primary))" : "hsl(var(--destructive))"} />
+                    ))}
+                </Bar>
+                 <Bar dataKey="close" stackId="c" barSize={8}>
+                    {stock.history.map((entry, index) => (
+                         <Cell key={`cell-${index}`} fill={entry.close > entry.open ? "hsl(var(--primary))" : "hsl(var(--destructive))"} />
+                    ))}
+                 </Bar>
+                <Bar dataKey="high" stackId="d" barSize={2}>
+                    {stock.history.map((entry, index) => (
+                         <Cell key={`cell-${index}`} fill={entry.close > entry.open ? "hsl(var(--primary))" : "hsl(var(--destructive))"} />
+                    ))}
+                </Bar>
+              </ComposedChart>
             </ResponsiveContainer>
           </ChartContainer>
         </CardContent>

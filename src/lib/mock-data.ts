@@ -36,13 +36,24 @@ const generateHistory = (basePrice: number, months: number, volatility: number, 
   const trend = isPositive ? 1 : -1;
 
   for (let i = 0; i < months; i++) {
-    const change = (Math.random() - 0.5 + (trend * 0.1)) * volatility * currentPrice;
-    currentPrice += change;
-    const date = new Date(2025, 11 - (months - 1 - i), 1);
-    history.push({
-      date: date.toLocaleString('default', { month: 'short' }),
-      value: Math.max(0, currentPrice * USD_TO_INR_RATE)
-    });
+      const open = currentPrice;
+      const change = (Math.random() - 0.5 + (trend * 0.1)) * volatility * currentPrice;
+      const close = open + change;
+      const high = Math.max(open, close) * (1 + Math.random() * (volatility / 10));
+      const low = Math.min(open, close) * (1 - Math.random() * (volatility / 10));
+      
+      currentPrice = close;
+      
+      const date = new Date(2025, 11 - (months - 1 - i), (i % 28) + 1);
+      
+      history.push({
+          date: date.toLocaleString('default', { month: 'short', day: 'numeric' }),
+          open: Math.max(0, open * USD_TO_INR_RATE),
+          high: Math.max(0, high * USD_TO_INR_RATE),
+          low: Math.max(0, low * USD_TO_INR_RATE),
+          close: Math.max(0, close * USD_TO_INR_RATE),
+          value: Math.max(0, close * USD_TO_INR_RATE) // for sparkline
+      });
   }
   return history;
 }
@@ -149,14 +160,7 @@ export const portfolioHoldings = [
     avgPrice: 150.75 * USD_TO_INR_RATE,
     currentPrice: 172.25 * USD_TO_INR_RATE,
     profitLoss: (172.25 - 150.75) * 50 * USD_TO_INR_RATE,
-    history: [
-      { value: 165 * USD_TO_INR_RATE },
-      { value: 168 * USD_TO_INR_RATE },
-      { value: 167 * USD_TO_INR_RATE },
-      { value: 170 * USD_TO_INR_RATE },
-      { value: 175 * USD_TO_INR_RATE },
-      { value: 172.25 * USD_TO_INR_RATE },
-    ],
+    history: generateHistory(172.25, 7, 0.02, true).map(d => ({ value: d.value })),
   },
   {
     ticker: 'GOOGL',
@@ -165,14 +169,7 @@ export const portfolioHoldings = [
     avgPrice: 2900.0 * USD_TO_INR_RATE,
     currentPrice: 2854.76 * USD_TO_INR_RATE,
     profitLoss: (2854.76 - 2900.0) * 10 * USD_TO_INR_RATE,
-    history: [
-      { value: 2880 * USD_TO_INR_RATE },
-      { value: 2860 * USD_TO_INR_RATE },
-      { value: 2875 * USD_TO_INR_RATE },
-      { value: 2850 * USD_TO_INR_RATE },
-      { value: 2840 * USD_TO_INR_RATE },
-      { value: 2854.76 * USD_TO_INR_RATE },
-    ],
+    history: generateHistory(2854.76, 7, 0.03, false).map(d => ({ value: d.value })),
   },
   {
     ticker: 'TSLA',
@@ -181,14 +178,7 @@ export const portfolioHoldings = [
     avgPrice: 850.5 * USD_TO_INR_RATE,
     currentPrice: 931.35 * USD_TO_INR_RATE,
     profitLoss: (931.35 - 850.5) * 20 * USD_TO_INR_RATE,
-    history: [
-      { value: 900 * USD_TO_INR_RATE },
-      { value: 910 * USD_TO_INR_RATE },
-      { value: 905 * USD_TO_INR_RATE },
-      { value: 920 * USD_TO_INR_RATE },
-      { value: 925 * USD_TO_INR_RATE },
-      { value: 931.35 * USD_TO_INR_RATE },
-    ],
+    history: generateHistory(931.35, 7, 0.05, true).map(d => ({ value: d.value })),
   },
 ];
 
