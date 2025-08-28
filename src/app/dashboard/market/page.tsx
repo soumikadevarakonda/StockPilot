@@ -1,6 +1,8 @@
+
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { Search } from "lucide-react"
 
@@ -30,9 +32,9 @@ type Stock = (typeof marketStocks)[0]
 export default function MarketPage() {
   const [search, setSearch] = React.useState("")
   const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const [selectedStock, setSelectedStock] = React.useState<Stock | null>(null)
+  const [selectedStock, setSelectedStock] = React.useState<Pick<Stock, 'name' | 'ticker' | 'price'> | null>(null)
 
-  const handleTradeClick = (stock: Stock) => {
+  const handleTradeClick = (stock: Pick<Stock, 'name' | 'ticker' | 'price'>) => {
     setSelectedStock(stock)
     setIsModalOpen(true)
   }
@@ -83,10 +85,12 @@ export default function MarketPage() {
               {filteredStocks.map((stock) => (
                 <TableRow key={stock.ticker}>
                   <TableCell>
-                    <div className="font-medium">{stock.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {stock.ticker}
-                    </div>
+                    <Link href={`/dashboard/market/${stock.ticker}`} className="hover:underline">
+                      <div className="font-medium">{stock.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {stock.ticker}
+                      </div>
+                    </Link>
                   </TableCell>
                   <TableCell className="text-right font-mono">
                     ₹{stock.price.toFixed(2)}
@@ -100,7 +104,7 @@ export default function MarketPage() {
                     {stock.change.toFixed(2)}%
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button size="sm" onClick={() => handleTradeClick(stock)}>
+                    <Button size="sm" onClick={() => handleTradeClick({name: stock.name, ticker: stock.ticker, price: stock.price})}>
                       Trade
                     </Button>
                   </TableCell>

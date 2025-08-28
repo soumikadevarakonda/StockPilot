@@ -1,3 +1,4 @@
+
 export const user = {
   name: 'Alex Doe',
   email: 'alex.doe@example.com',
@@ -29,6 +30,23 @@ export const stockAllocation = [
   { name: 'AMZN', value: 100 * USD_TO_INR_RATE, fill: 'var(--color-chart-4)' },
 ];
 
+const generateHistory = (basePrice: number, months: number, volatility: number, isPositive: boolean) => {
+  const history = [];
+  let currentPrice = basePrice;
+  const trend = isPositive ? 1 : -1;
+
+  for (let i = 0; i < months; i++) {
+    const change = (Math.random() - 0.5 + (trend * 0.1)) * volatility * currentPrice;
+    currentPrice += change;
+    const date = new Date(2024, 11 - (months - 1 - i), 1);
+    history.push({
+      date: date.toLocaleString('default', { month: 'short' }),
+      value: Math.max(0, currentPrice * USD_TO_INR_RATE)
+    });
+  }
+  return history;
+}
+
 export const marketStocks = [
   {
     name: 'Apple Inc.',
@@ -36,6 +54,12 @@ export const marketStocks = [
     price: 172.25 * USD_TO_INR_RATE,
     change: 1.5,
     isPositive: true,
+    marketCap: 2.8 * 1e12 * USD_TO_INR_RATE,
+    peRatio: 28.5,
+    dividendYield: 0.54,
+    volume: 50.2 * 1e6,
+    description: 'Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. It also sells various related services.',
+    history: generateHistory(172.25, 12, 0.05, true),
   },
   {
     name: 'Google LLC',
@@ -43,6 +67,12 @@ export const marketStocks = [
     price: 2854.76 * USD_TO_INR_RATE,
     change: -0.8,
     isPositive: false,
+    marketCap: 1.9 * 1e12 * USD_TO_INR_RATE,
+    peRatio: 26.8,
+    dividendYield: 0.0,
+    volume: 1.1 * 1e6,
+    description: 'Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.',
+    history: generateHistory(2854.76, 12, 0.06, false),
   },
   {
     name: 'Tesla, Inc.',
@@ -50,6 +80,12 @@ export const marketStocks = [
     price: 931.35 * USD_TO_INR_RATE,
     change: 3.2,
     isPositive: true,
+    marketCap: 935 * 1e9 * USD_TO_INR_RATE,
+    peRatio: 120.3,
+    dividendYield: 0.0,
+    volume: 25.6 * 1e6,
+    description: 'Tesla, Inc. designs, develops, manufactures, sells and leases electric vehicles and energy generation and storage systems, and offers services related to its products.',
+    history: generateHistory(931.35, 12, 0.1, true),
   },
   {
     name: 'Amazon.com, Inc.',
@@ -57,6 +93,12 @@ export const marketStocks = [
     price: 3384.2 * USD_TO_INR_RATE,
     change: -0.2,
     isPositive: false,
+    marketCap: 1.72 * 1e12 * USD_TO_INR_RATE,
+    peRatio: 60.7,
+    dividendYield: 0.0,
+    volume: 2.5 * 1e6,
+    description: 'Amazon.com, Inc. engages in the retail sale of consumer products and subscriptions in North America and internationally. The company operates through three segments: North America, International, and Amazon Web Services (AWS).',
+    history: generateHistory(3384.20, 12, 0.07, false),
   },
   {
     name: 'Microsoft Corp.',
@@ -64,6 +106,12 @@ export const marketStocks = [
     price: 305.22 * USD_TO_INR_RATE,
     change: 0.5,
     isPositive: true,
+    marketCap: 2.28 * 1e12 * USD_TO_INR_RATE,
+    peRatio: 33.1,
+    dividendYield: 0.81,
+    volume: 28.9 * 1e6,
+    description: 'Microsoft Corporation develops, licenses, and supports software, services, devices, and solutions worldwide. Its Productivity and Business Processes segment offers Office, Exchange, SharePoint, Microsoft Teams, Office 365 Security and Compliance, and more.',
+    history: generateHistory(305.22, 12, 0.04, true),
   },
   {
     name: 'NVIDIA Corp.',
@@ -71,6 +119,12 @@ export const marketStocks = [
     price: 220.5 * USD_TO_INR_RATE,
     change: 2.1,
     isPositive: true,
+    marketCap: 551 * 1e9 * USD_TO_INR_rate,
+    peRatio: 75.4,
+    dividendYield: 0.07,
+    volume: 45.7 * 1e6,
+    description: 'NVIDIA Corporation operates as a visual computing company worldwide. It operates in two segments, Graphics and Compute & Networking.',
+    history: generateHistory(220.5, 12, 0.12, true),
   },
   {
     name: 'Meta Platforms, Inc.',
@@ -78,6 +132,12 @@ export const marketStocks = [
     price: 210.41 * USD_TO_INR_RATE,
     change: -1.1,
     isPositive: false,
+    marketCap: 580 * 1e9 * USD_TO_INR_RATE,
+    peRatio: 15.2,
+    dividendYield: 0.0,
+    volume: 30.1 * 1e6,
+    description: 'Meta Platforms, Inc. develops products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality headsets, and in-home devices.',
+    history: generateHistory(210.41, 12, 0.08, false),
   },
 ];
 
@@ -125,7 +185,7 @@ export const portfolioHoldings = [
       { value: 900 * USD_TO_INR_RATE },
       { value: 910 * USD_TO_INR_RATE },
       { value: 905 * USD_TO_INR_RATE },
-      { value: 920 * USD_TO_INR_RATE },
+      { value: 920 * USD_to_INR_RATE },
       { value: 925 * USD_TO_INR_RATE },
       { value: 931.35 * USD_TO_INR_RATE },
     ],
