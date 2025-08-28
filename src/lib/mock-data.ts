@@ -234,3 +234,46 @@ export const transactionHistory = [
     status: "Completed",
   },
 ];
+
+export const marketNews = [
+  {
+    id: 'news_1',
+    source: 'The Economic Times',
+    date: '2025-06-21',
+    headline: 'Tech Stocks Rally as Inflation Fears Subside',
+    summary: 'Major tech stocks, including Apple and Microsoft, saw significant gains today as new data suggests inflation may be cooling down, reassuring investors.',
+    image: 'https://placehold.co/600x400.png',
+    tags: ['Tech', 'Market Rally'],
+    url: '#',
+  },
+  {
+    id: 'news_2',
+    source: 'Reuters',
+    date: '2025-06-21',
+    headline: 'Tesla Announces Breakthrough in Battery Technology',
+    summary: 'Tesla shares surged after the company revealed a new battery that promises longer range and lower costs, potentially disrupting the EV market.',
+    image: 'https://placehold.co/600x400.png',
+    tags: ['EV', 'Technology', 'TSLA'],
+    url: '#',
+  },
+  {
+    id: 'news_3',
+    source: 'Bloomberg',
+    date: '2025-06-20',
+    headline: 'Federal Reserve Holds Interest Rates Steady',
+    summary: 'The Federal Reserve has decided to keep interest rates unchanged, citing a need for more economic data before making further adjustments.',
+    image: 'https://placehold.co/600x400.png',
+    tags: ['Economy', 'Federal Reserve'],
+    url: '#',
+  },
+  {
+    id: 'news_4',
+    source: 'The Wall Street Journal',
+    date: '2025-06-20',
+    headline: 'Amazon Expands into Healthcare with New Acquisition',
+    summary: 'Amazon continues its expansion into the healthcare sector by acquiring a major telehealth provider, sending ripples through the industry.',
+    image: 'https://placehold.co/600x400.png',
+    tags: ['Healthcare', 'Acquisition', 'AMZN'],
+    url: '#',
+  },
+];
