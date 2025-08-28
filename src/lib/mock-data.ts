@@ -38,7 +38,7 @@ const generateHistory = (basePrice: number, months: number, volatility: number, 
   for (let i = 0; i < months; i++) {
     const change = (Math.random() - 0.5 + (trend * 0.1)) * volatility * currentPrice;
     currentPrice += change;
-    const date = new Date(2024, 11 - (months - 1 - i), 1);
+    const date = new Date(2025, 11 - (months - 1 - i), 1);
     history.push({
       date: date.toLocaleString('default', { month: 'short' }),
       value: Math.max(0, currentPrice * USD_TO_INR_RATE)
@@ -119,7 +119,7 @@ export const marketStocks = [
     price: 220.5 * USD_TO_INR_RATE,
     change: 2.1,
     isPositive: true,
-    marketCap: 551 * 1e9 * USD_TO_INR_rate,
+    marketCap: 551 * 1e9 * USD_TO_INR_RATE,
     peRatio: 75.4,
     dividendYield: 0.07,
     volume: 45.7 * 1e6,
@@ -185,7 +185,7 @@ export const portfolioHoldings = [
       { value: 900 * USD_TO_INR_RATE },
       { value: 910 * USD_TO_INR_RATE },
       { value: 905 * USD_TO_INR_RATE },
-      { value: 920 * USD_to_INR_RATE },
+      { value: 920 * USD_TO_INR_RATE },
       { value: 925 * USD_TO_INR_RATE },
       { value: 931.35 * USD_TO_INR_RATE },
     ],
