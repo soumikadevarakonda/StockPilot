@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* ---------------------------
+   Theme variables (new style)
+   --------------------------- */
+@theme {
+  /* default to dark-mode tokens (you wanted dark as default) */
+  --color-background: hsl(220 10% 10%);
+  --color-foreground: hsl(0 0% 98%);
+  --color-primary: hsl(195 100% 50%);
+  --color-border: hsl(217.2 32.6% 17.5%);
+}
+
+/* ---------------------------
+   Old variable compatibility
+   (map old names to the new tokens so existing components keep working)
+   --------------------------- */
+@layer base {
+  :root {
+    /* map older variables to the theme variables so components using --background still render */
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+    --primary: var(--color-primary);
+    --border: var(--color-border);
+    --emphasis: 0 0% 100%; /* pure white */
+
+    /* keep other older variables available (fallbacks can be changed later) */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --radius: 0.5rem;
+  }
+
+  /* explicit dark-mode overrides (still available if you toggle .dark on <html>) */
+  .dark {
+    --background: hsl(220 10% 10%);
+    --foreground: hsl(0 0% 98%);
+    --primary: hsl(195 100% 50%);
+    --border: hsl(217.2 32.6% 17.5%);
+    --emphasis: 0 0% 100%; /* pure white */
+  }
+}
+
+/* ---------------------------
+   Global layout & resets
+   --------------------------- */
+@layer base {
+  /* remove browser default gaps and prevent horizontal scrollbar */
+  html, body, #root {
+    @apply m-0 p-0 w-full min-h-screen;
+    overflow-x: hidden;
+  }
+
+  /* default body: not a centered one-screen jail — allows normal scrolling */
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)];
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* small helper: use this on pages that must be perfectly centered (auth pages) */
+  .centered {
+    @apply flex items-center justify-center h-screen;
+  }
+
+  /* helper for a full-bleed edge-to-edge page wrapper (landing pages) */
+  .page-fullbleed {
+    @apply w-screen min-h-screen overflow-hidden;
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Safe override: If you used Tailwind's 'container' and it's creating gutters,
+     use container-fluid inside a full-bleed wrapper instead of globally breaking container */
+  .page-fullbleed .container,
+  .container-fluid {
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* subtle default border-color mapping for components using --border variable */
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  /* keep html color-scheme to dark so system UI matches */
+  html {
+    color-scheme: dark;
+  }
+}

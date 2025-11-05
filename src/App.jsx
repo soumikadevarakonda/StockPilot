@@ -7,13 +7,16 @@ import Transactions from "./pages/Transactions";
 import Settings from "./pages/Settings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import Landing from "./pages/Landing";
+import "./styles/globals.css";
 
 function App() {
   return (
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         {/* Protected Routes */}
