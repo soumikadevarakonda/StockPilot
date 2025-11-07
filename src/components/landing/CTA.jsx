@@ -32,8 +32,8 @@ export default function CTA() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-[hsl(var(--color-primary))] font-semibold shadow-lg hover:bg-white/90 transition-all"
             >
-    <span className="text-[hsl(195,100%,55%)]">Start Trading for Free</span>
-    <ArrowRight className="ml-2 text-[hsl(195,100%,55%)]" />
+            <span className="text-[hsl(195,100%,55%)]">Start Trading for Free</span>
+            <ArrowRight className="ml-2 text-[hsl(195,100%,55%)]" />
             </motion.a>
           </div>
 
