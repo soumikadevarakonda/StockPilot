@@ -31,9 +31,6 @@ export default function Header() {
           <Rocket className="h-6 w-6 text-primary" />
           <span className="text-[hsl(var(--emphasis))] text-lg font-semibold">StockPilot</span>
         </a>
-        <div className="flex items-center gap-4">
-          {/* Theme toggle will come here later */}
-        </div>
       </div>
     </motion.header>
   );
