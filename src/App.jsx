@@ -5,8 +5,6 @@ import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
 import Transactions from "./pages/Transactions";
 import Settings from "./pages/Settings";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Layout from "./components/Layout";
 import Landing from "./pages/Landing";
 import "./styles/globals.css";
 
@@ -19,47 +17,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Dashboard />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/portfolio"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Portfolio />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/transactions"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Transactions />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Settings />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
+        {/* Temporarily public routes for development */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
   );
