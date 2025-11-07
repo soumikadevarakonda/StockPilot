@@ -30,12 +30,13 @@ export default function CTA() {
               href="/register"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center rounded-md bg-primary-foreground px-6 py-3 text-primary font-semibold shadow-lg hover:bg-primary-foreground/90 transition-all"
+              className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-[hsl(var(--color-primary))] font-semibold shadow-lg hover:bg-white/90 transition-all"
             >
-              Start Trading for Free
-              <ArrowRight className="ml-2" />
+    <span className="text-[hsl(195,100%,55%)]">Start Trading for Free</span>
+    <ArrowRight className="ml-2 text-[hsl(195,100%,55%)]" />
             </motion.a>
           </div>
+
         </motion.div>
       </div>
     </section>

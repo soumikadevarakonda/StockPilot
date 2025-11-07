@@ -50,7 +50,7 @@ const itemVariants = {
 
 export default function Testimonials() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 bg-[hsl(220,10%,10%)]">
       <div className="container mx-auto px-4 md:px-6">
         {/* Section header */}
         <motion.div
