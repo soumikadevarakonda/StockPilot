@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Rocket } from "lucide-react";
 
-// no ThemeToggle yet, will add later when needed
-
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
