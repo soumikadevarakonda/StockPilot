@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Rocket, Bell } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Rocket, Bell, Menu } from "lucide-react";
 import { FiLogOut } from "react-icons/fi";
+import Sidebar from "./Sidebar";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +23,30 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Sidebar (slide-in animation) */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ x: -260 }}
+            animate={{ x: 0 }}
+            exit={{ x: -260 }}
+            transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            className="fixed top-0 left-0 z-50 h-full"
+          >
+            <Sidebar />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Dim background when sidebar is open */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Navbar */}
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
@@ -32,15 +58,21 @@ export default function Navbar() {
         transition={{ duration: 0.5 }}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          {/* Left: Logo */}
-          <div
-            className="flex items-center gap-2 cursor-pointer select-none"
-            onClick={() => navigate("/dashboard")}
-          >
-            <Rocket className="h-6 w-6 text-primary drop-shadow-[0_0_6px_hsl(195,100%,50%)]" />
-            <span className="text-[hsl(var(--emphasis))] text-lg font-semibold">
-              StockPilot
-            </span>
+          {/* Left: Sidebar Toggle + Logo */}
+          <div className="flex items-center gap-3 cursor-pointer select-none">
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="text-[hsl(var(--emphasis))] hover:text-primary transition p-1 rounded-md"
+            >
+              <Menu size={22} />
+            </button>
+
+            <div onClick={() => navigate("/dashboard")} className="flex items-center gap-2">
+              <Rocket className="h-6 w-6 text-primary drop-shadow-[0_0_6px_hsl(195,100%,50%)]" />
+              <span className="text-[hsl(var(--emphasis))] text-lg font-semibold">
+                StockPilot
+              </span>
+            </div>
           </div>
 
           {/* Right: Notification + Logout */}
