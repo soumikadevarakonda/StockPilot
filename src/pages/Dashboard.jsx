@@ -4,13 +4,14 @@ import axios from "../api/axios";
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer,
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
@@ -20,61 +21,64 @@ export default function Dashboard() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
+    const email = "soumika@stockpilot.com";
     const token = localStorage.getItem("token");
-    const email = "demo@stockpilot.com"; // temp during dev
 
+    // Fetch profile
     if (token) {
       axios
         .get("/auth/profile", { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => setUser(res.data))
         .catch(() => setUser({ name: "Soumika", email }));
     } else {
-      setUser({ name: "Guest User", email });
+      setUser({ name: "Soumika", email });
     }
 
-    axios
-      .get(`/api/portfolio/${email}`)
-      .then((res) => setPortfolio(res.data))
-      .catch(() =>
-        setPortfolio({
-          balance: 125000,
-          profitLoss: 4200,
-          holdingsCount: 6,
-          activeTrades: 2,
-        })
-      );
+    // Mock portfolio summary
+    setPortfolio({
+      balance: 132450,
+      profitLoss: 6350,
+      holdingsCount: 10,
+      activeTrades: 3,
+    });
 
-    axios
-      .get(`/api/portfolio/${email}`)
-      .then((res) => setHoldings(res.data))
-      .catch(() =>
-        setHoldings([
-          { symbol: "AAPL", qty: 10, avgPrice: 175, currentPrice: 182 },
-          { symbol: "TSLA", qty: 5, avgPrice: 720, currentPrice: 700 },
-          { symbol: "RELIANCE", qty: 12, avgPrice: 2600, currentPrice: 2720 },
-          { symbol: "INFY", qty: 8, avgPrice: 1450, currentPrice: 1400 },
-        ])
-      );
+    // Mock holdings
+    setHoldings([
+      { symbol: "AAPL", qty: 10, avgPrice: 175, currentPrice: 182, sector: "Tech" },
+      { symbol: "TSLA", qty: 5, avgPrice: 720, currentPrice: 700, sector: "Auto" },
+      { symbol: "RELIANCE", qty: 12, avgPrice: 2600, currentPrice: 2720, sector: "Energy" },
+      { symbol: "INFY", qty: 8, avgPrice: 1450, currentPrice: 1400, sector: "Tech" },
+      { symbol: "TCS", qty: 6, avgPrice: 3600, currentPrice: 3740, sector: "Tech" },
+      { symbol: "HDFC", qty: 5, avgPrice: 1550, currentPrice: 1605, sector: "Finance" },
+      { symbol: "HINDUNILVR", qty: 4, avgPrice: 2500, currentPrice: 2470, sector: "FMCG" },
+      { symbol: "AMZN", qty: 3, avgPrice: 3120, currentPrice: 3250, sector: "E-Commerce" },
+      { symbol: "SUNPHARMA", qty: 10, avgPrice: 1170, currentPrice: 1215, sector: "Pharma" },
+      { symbol: "ICICIBANK", qty: 15, avgPrice: 960, currentPrice: 985, sector: "Banking" },
+    ]);
 
-    axios
-      .get(`/api/transactions/${email}`)
-      .then((res) => setTransactions(res.data))
-      .catch(() =>
-        setTransactions([
-          { id: 1, symbol: "AAPL", type: "BUY", qty: 5, price: 175 },
-          { id: 2, symbol: "TSLA", type: "SELL", qty: 2, price: 710 },
-          { id: 3, symbol: "INFY", type: "BUY", qty: 4, price: 1420 },
-        ])
-      );
+    // Mock transactions
+    setTransactions([
+      { id: 1, symbol: "AAPL", type: "BUY", qty: 5, price: 175 },
+      { id: 2, symbol: "TSLA", type: "SELL", qty: 2, price: 710 },
+      { id: 3, symbol: "INFY", type: "BUY", qty: 4, price: 1420 },
+      { id: 4, symbol: "RELIANCE", type: "BUY", qty: 3, price: 2600 },
+      { id: 5, symbol: "TCS", type: "BUY", qty: 2, price: 3620 },
+    ]);
 
-    // mock net worth data for chart
+    // Yearly chart data
     setChartData([
-      { day: "Mon", net: 120000 },
-      { day: "Tue", net: 121200 },
-      { day: "Wed", net: 122500 },
-      { day: "Thu", net: 122000 },
-      { day: "Fri", net: 123800 },
-      { day: "Sat", net: 125000 },
+      { month: "Jan", net: 108000 },
+      { month: "Feb", net: 110500 },
+      { month: "Mar", net: 114200 },
+      { month: "Apr", net: 112000 },
+      { month: "May", net: 118000 },
+      { month: "Jun", net: 121300 },
+      { month: "Jul", net: 125000 },
+      { month: "Aug", net: 122500 },
+      { month: "Sep", net: 127000 },
+      { month: "Oct", net: 132000 },
+      { month: "Nov", net: 129000 },
+      { month: "Dec", net: 136000 },
     ]);
   }, []);
 
@@ -88,10 +92,10 @@ export default function Dashboard() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          Welcome back, {user ? user.name : "Trader"} 👋
+          Welcome back, {user ? user.name : "Soumika"} 👋
         </motion.h2>
 
-        {/* ===== Portfolio Summary (Full Width) ===== */}
+        {/* ===== Portfolio Summary ===== */}
         <motion.div
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-12"
           initial={{ opacity: 0, y: 30 }}
@@ -108,14 +112,13 @@ export default function Dashboard() {
           <StatCard title="Active Trades" value={portfolio?.activeTrades || 0} />
         </motion.div>
 
-        {/* ===== 2-Column Layout (Holdings + Chart + Transactions) ===== */}
+        {/* ===== Main Layout ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Side: Holdings (2 columns wide) */}
+          {/* Holdings Section */}
           <motion.div
-            className="lg:col-span-2 bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-6 shadow-lg"
+            className="lg:col-span-2 bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
           >
             <h3 className="text-xl font-semibold mb-4">Your Holdings</h3>
             <div className="overflow-x-auto">
@@ -123,8 +126,9 @@ export default function Dashboard() {
                 <thead className="text-[hsl(0,0%,80%)] border-b border-[hsl(217,32%,17%)]">
                   <tr>
                     <th className="text-left py-2">Symbol</th>
+                    <th className="text-left py-2">Sector</th>
                     <th className="text-left py-2">Qty</th>
-                    <th className="text-left py-2">Avg Price</th>
+                    <th className="text-left py-2">Avg</th>
                     <th className="text-left py-2">Current</th>
                     <th className="text-left py-2">P/L</th>
                   </tr>
@@ -133,17 +137,26 @@ export default function Dashboard() {
                   {holdings.map((h) => {
                     const pnl = ((h.currentPrice - h.avgPrice) * h.qty).toFixed(2);
                     const isProfit = pnl >= 0;
+                    const changePct = (((h.currentPrice - h.avgPrice) / h.avgPrice) * 100).toFixed(1);
                     return (
                       <tr
                         key={h.symbol}
-                        className="border-b border-[hsl(217,32%,17%)] hover:bg-[hsl(220,10%,20%)] transition"
+                        className="border-b border-[hsl(217,32%,17%)] hover:bg-[hsl(220,10%,18%)] transition"
                       >
                         <td className="py-3 font-medium">{h.symbol}</td>
+                        <td className="text-[hsl(0,0%,70%)]">{h.sector}</td>
                         <td>{h.qty}</td>
                         <td>₹ {h.avgPrice}</td>
-                        <td>₹ {h.currentPrice}</td>
+                        <td className="flex items-center gap-1">
+                          ₹{h.currentPrice}
+                          {isProfit ? (
+                            <ArrowUpRight size={14} className="text-emerald-400" />
+                          ) : (
+                            <ArrowDownRight size={14} className="text-red-400" />
+                          )}
+                        </td>
                         <td className={isProfit ? "text-emerald-400" : "text-red-400"}>
-                          {isProfit ? "+" : ""}₹{pnl}
+                          {isProfit ? "+" : ""}₹{pnl} ({changePct}%)
                         </td>
                       </tr>
                     );
@@ -153,35 +166,59 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Right Side: Chart + Transactions */}
+          {/* ===== Chart + Transactions ===== */}
           <div className="flex flex-col gap-6">
-            {/* Performance Chart */}
+            {/* Chart */}
             <motion.div
-              className="bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-5 shadow-lg"
+              className="bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-5 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
             >
-              <h3 className="text-lg font-semibold mb-3">Portfolio Performance</h3>
+              <h3 className="text-lg font-semibold mb-3">Yearly Portfolio Performance</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient id="colorNet" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="hsl(195,100%,65%)" stopOpacity={0.9} />
+                        <stop offset="100%" stopColor="hsl(195,100%,55%)" stopOpacity={0.1} />
+                      </linearGradient>
+                    </defs>
                     <CartesianGrid stroke="rgba(255,255,255,0.05)" />
-                    <XAxis dataKey="day" stroke="rgba(255,255,255,0.6)" />
-                    <YAxis stroke="rgba(255,255,255,0.6)" />
-                    <Tooltip contentStyle={{ background: "#0b1220", border: "none", color: "#fff" }} />
-                    <Line type="monotone" dataKey="net" stroke="hsl(195,100%,50%)" strokeWidth={2} dot={false} />
-                  </LineChart>
+                    <XAxis dataKey="month" stroke="rgba(255,255,255,0.6)" tickLine={false} axisLine={false} />
+                    <YAxis
+                      stroke="rgba(255,255,255,0.6)"
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(val) => `₹${(val / 1000).toFixed(0)}k`}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        background: "#0b1220",
+                        border: "none",
+                        color: "#fff",
+                        borderRadius: "6px",
+                      }}
+                      formatter={(val) => [`₹${val.toLocaleString()}`, "Net Worth"]}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="net"
+                      stroke="hsl(195,100%,65%)"
+                      fill="url(#colorNet)"
+                      strokeWidth={2.5}
+                      activeDot={{ r: 4, fill: "hsl(195,100%,65%)", strokeWidth: 0 }}
+                    />
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
             </motion.div>
 
-            {/* Recent Transactions */}
+            {/* Transactions */}
             <motion.div
-              className="bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-5 shadow-lg"
+              className="bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-5 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
             >
               <h3 className="text-lg font-semibold mb-3">Recent Transactions</h3>
               <ul className="space-y-3">
@@ -192,7 +229,9 @@ export default function Dashboard() {
                   >
                     <div>
                       <span className="font-medium">{t.symbol}</span>{" "}
-                      <span className="text-[hsl(0,0%,75%)]">{t.qty} @ ₹{t.price}</span>
+                      <span className="text-[hsl(0,0%,75%)]">
+                        {t.qty} @ ₹{t.price}
+                      </span>
                     </div>
                     <span
                       className={`font-semibold ${
@@ -212,13 +251,13 @@ export default function Dashboard() {
   );
 }
 
-/* Reusable StatCard */
+/* ==== StatCard Component ==== */
 function StatCard({ title, value, color }) {
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
       transition={{ type: "spring", stiffness: 200 }}
-      className="rounded-xl bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] p-6 shadow-lg"
+      className="rounded-xl bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] p-6 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
     >
       <h3 className="text-sm text-[hsl(0,0%,75%)] mb-2">{title}</h3>
       <p className={`text-2xl font-semibold ${color || ""}`}>{value}</p>
