@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { Rocket, Bell, Search } from "lucide-react";
 import { FiLogOut } from "react-icons/fi";
-import { Bell, Search } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -11,18 +12,22 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-[hsl(220,10%,10%)] border-b border-[hsl(217,32%,17%)] px-6 py-3 flex items-center justify-between shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
-      
-      {/* Left: Logo */}
-      <div className="flex items-center gap-2 cursor-pointer select-none">
-        <span className="text-primary text-2xl">📊</span>
-        <h1 className="text-lg font-semibold tracking-wide text-[hsl(var(--emphasis))]">
+    <motion.nav
+      className="sticky top-0 z-50 bg-[hsl(220,10%,10%)]/95 backdrop-blur-sm border-b border-[hsl(217,32%,17%)] px-6 py-3 shadow-[0_2px_12px_rgba(0,0,0,0.3)] flex items-center justify-between"
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Left: Logo (same as landing header) */}
+      <div className="flex items-center gap-2 select-none cursor-pointer">
+        <Rocket className="h-6 w-6 text-primary" />
+        <span className="text-[hsl(var(--emphasis))] text-lg font-semibold tracking-wide">
           StockPilot
-        </h1>
+        </span>
       </div>
 
-      {/* Middle: Search (optional, for tickers) */}
-      <div className="hidden sm:flex items-center bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-md px-3 py-1.5 text-sm w-72">
+      {/* Center: Search bar (optional) */}
+      <div className="hidden sm:flex items-center bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-md px-3 py-1.5 w-72">
         <Search size={16} className="text-[hsl(0,0%,70%)] mr-2" />
         <input
           type="text"
@@ -31,7 +36,7 @@ export default function Navbar() {
         />
       </div>
 
-      {/* Right: Icons */}
+      {/* Right: Actions */}
       <div className="flex items-center gap-6">
         {/* Notifications */}
         <button className="relative hover:text-primary transition">
@@ -49,6 +54,6 @@ export default function Navbar() {
           <FiLogOut size={18} /> Logout
         </button>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
