@@ -5,22 +5,32 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import TradeModal from "../components/modals/TradeModal"; // ✅ import modal
 
 export default function Portfolio() {
   const [holdings, setHoldings] = useState([]);
   const [summary, setSummary] = useState({ invested: 0, value: 0, profitLoss: 0 });
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isTradeModalOpen, setIsTradeModalOpen] = useState(false); // ✅ modal state
   const email = "soumika@stockpilot.com";
 
-  useEffect(() => {
+  const fetchPortfolio = () => {
     axios
-      .get(`/api/portfolio/${email}`)
+      .get(`/portfolio/${email}`)
       .then((res) => {
-        const data = res.data;
-        setHoldings(data);
-        computeSummary(data);
+        const rawData = res.data;
+        const normalized = rawData.map((h) => ({
+          symbol: h.symbol || h.stock?.symbol || "N/A",
+          sector: h.sector || h.stock?.sector || "Misc",
+          quantity: h.quantity || 0,
+          avgPrice: h.avgPrice || 0,
+          currentPrice: h.currentPrice || h.stock?.price || 0,
+        }));
+        setHoldings(normalized);
+        computeSummary(normalized);
       })
+
       .catch(() => {
         const mock = [
           { symbol: "AAPL", quantity: 10, avgPrice: 175, currentPrice: 182, sector: "Tech" },
@@ -34,10 +44,15 @@ export default function Portfolio() {
         computeSummary(mock);
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchPortfolio();
   }, []);
 
   const computeSummary = (data) => {
-    let invested = 0, value = 0;
+    let invested = 0,
+      value = 0;
     data.forEach((h) => {
       invested += h.avgPrice * h.quantity;
       value += h.currentPrice * h.quantity;
@@ -59,15 +74,14 @@ export default function Portfolio() {
   );
 
   return (
-    <div className="relative min-h-screen bg-[hsl(220,10%,10%)] text-[hsl(var(--foreground))] overflow-hidden">
+    <div className="relative min-h-screen bg-[hsl(220,10%,10%)] text-[hsl(var(--foreground))]">
       {/* Navbar */}
       <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
-      {/* Sidebar with blur overlay */}
+      {/* Sidebar */}
       <AnimatePresence>
         {isSidebarOpen && (
           <>
-            {/* Background blur overlay */}
             <motion.div
               className="fixed inset-0 bg-black/30 backdrop-blur-[2px] z-40"
               initial={{ opacity: 0 }}
@@ -75,8 +89,6 @@ export default function Portfolio() {
               exit={{ opacity: 0 }}
               onClick={() => setIsSidebarOpen(false)}
             />
-
-            {/* Sidebar slide animation */}
             <motion.div
               initial={{ x: -250 }}
               animate={{ x: 0 }}
@@ -90,8 +102,18 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* Main content area */}
-      <div className="p-8 max-w-7xl mx-auto">
+      {/* ✅ Trade Modal */}
+      <TradeModal
+        isOpen={isTradeModalOpen}
+        onClose={() => setIsTradeModalOpen(false)}
+        email={email}
+        onTradeComplete={() => {
+          fetchPortfolio();
+        }}
+      />
+
+      {/* Content */}
+      <div className="p-6 md:p-10 max-w-7xl mx-auto">
         <motion.h2
           className="text-3xl font-bold mb-8"
           initial={{ opacity: 0, y: -10 }}
@@ -119,7 +141,7 @@ export default function Portfolio() {
               />
             </motion.div>
 
-            {/* Chart + Holdings Layout */}
+            {/* Chart + Holdings */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Sector Chart */}
               <motion.div
@@ -158,13 +180,22 @@ export default function Portfolio() {
                 </div>
               </motion.div>
 
-              {/* Holdings */}
+              {/* Holdings Table */}
               <motion.div
                 className="lg:col-span-2 bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h3 className="text-lg font-semibold mb-4">Your Holdings</h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold">Your Holdings</h3>
+                  <button
+                    className="px-4 py-2 rounded-md bg-primary/80 hover:bg-primary text-white font-medium transition"
+                    onClick={() => setIsTradeModalOpen(true)} // ✅ toggles modal
+                  >
+                    + Trade
+                  </button>
+                </div>
+
                 <div className="overflow-y-auto max-h-80 rounded-md scrollbar-thin scrollbar-thumb-[hsl(217,32%,25%)] scrollbar-track-[hsl(220,10%,13%)]">
                   <table className="w-full text-sm">
                     <thead className="text-[hsl(0,0%,80%)] border-b border-[hsl(217,32%,17%)]">
@@ -178,23 +209,11 @@ export default function Portfolio() {
                       </tr>
                     </thead>
                     <tbody>
-                      {[
-                        { symbol: "AAPL", qty: 10, avgPrice: 175, currentPrice: 182, sector: "Tech" },
-                        { symbol: "TSLA", qty: 5, avgPrice: 720, currentPrice: 700, sector: "Auto" },
-                        { symbol: "RELIANCE", qty: 12, avgPrice: 2600, currentPrice: 2720, sector: "Energy" },
-                        { symbol: "INFY", qty: 8, avgPrice: 1450, currentPrice: 1400, sector: "Tech" },
-                        { symbol: "TCS", qty: 6, avgPrice: 3600, currentPrice: 3740, sector: "Tech" },
-                        { symbol: "HDFC", qty: 5, avgPrice: 1550, currentPrice: 1605, sector: "Finance" },
-                        { symbol: "HINDUNILVR", qty: 4, avgPrice: 2500, currentPrice: 2470, sector: "FMCG" },
-                        { symbol: "AMZN", qty: 3, avgPrice: 3120, currentPrice: 3250, sector: "E-Commerce" },
-                        { symbol: "SUNPHARMA", qty: 10, avgPrice: 1170, currentPrice: 1215, sector: "Pharma" },
-                        { symbol: "ICICIBANK", qty: 15, avgPrice: 960, currentPrice: 985, sector: "Banking" },
-                      ].map((h) => {
-                        const pnl = ((h.currentPrice - h.avgPrice) * h.qty).toFixed(2);
+                      {holdings.map((h) => {
+                        const pnl = ((h.currentPrice - h.avgPrice) * h.quantity).toFixed(2);
                         const isProfit = pnl >= 0;
                         const changePct = (
-                          ((h.currentPrice - h.avgPrice) / h.avgPrice) *
-                          100
+                          ((h.currentPrice - h.avgPrice) / h.avgPrice) * 100
                         ).toFixed(1);
                         return (
                           <tr
@@ -203,7 +222,7 @@ export default function Portfolio() {
                           >
                             <td className="py-3 font-medium">{h.symbol}</td>
                             <td className="text-[hsl(0,0%,70%)]">{h.sector}</td>
-                            <td>{h.qty}</td>
+                            <td>{h.quantity}</td>
                             <td>₹ {h.avgPrice}</td>
                             <td className="flex items-center gap-1">
                               ₹{h.currentPrice}
@@ -223,7 +242,6 @@ export default function Portfolio() {
                   </table>
                 </div>
               </motion.div>
-
             </div>
           </>
         )}
