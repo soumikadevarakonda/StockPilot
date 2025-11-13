@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import Landing from "./pages/Landing";
 import "./styles/globals.css";
 import Watchlist from "./pages/Watchlist";
+import MarketNews from "./pages/MarketNews";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/marketnews" element={<MarketNews />} />
       </Routes>
     </Router>
   );

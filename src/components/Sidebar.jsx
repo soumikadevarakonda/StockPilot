@@ -9,6 +9,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiStar,
+  FiGlobe,
 } from "react-icons/fi";
 import { Rocket } from "lucide-react";
 
@@ -19,6 +20,7 @@ export default function Sidebar() {
     { name: "Dashboard", icon: <FiHome />, path: "/dashboard" },
     { name: "Portfolio", icon: <FiPieChart />, path: "/portfolio" },
     { name: "Watchlist", icon: <FiStar />, path: "/watchlist" },
+    { name: "Market News", icon: <FiGlobe />, path: "/marketnews" },
     { name: "Transactions", icon: <FiStar />, path: "/transactions" },
     { name: "Settings", icon: <FiSettings />, path: "/settings" },
   ];
