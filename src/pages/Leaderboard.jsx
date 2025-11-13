@@ -23,7 +23,7 @@ export default function Leaderboard() {
         "Raghav", "Dev", "Kunal", "Rohit", "Siddharth", "Harsh",
         "Naveen", "Abhinav", "Yash", "Pranav", "Manish", "Vishal",
 
-        "Pooja", "Sneha", "Swara", "Tanvi", "Aparna", "Shreya",
+        "Soumika", "Sneha", "Swara", "Tanvi", "Aparna", "Shreya",
         "Lakshmi", "Harini", "Kavya", "Shraddha", "Asmita", "Gayatri",
 
         "Farhan", "Ayaan", "Rehan", "Imran", "Zaid", "Yusuf",
