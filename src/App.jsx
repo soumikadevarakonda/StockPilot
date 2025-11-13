@@ -7,6 +7,7 @@ import Transactions from "./pages/Transactions";
 import Settings from "./pages/Settings";
 import Landing from "./pages/Landing";
 import "./styles/globals.css";
+import Watchlist from "./pages/Watchlist";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
