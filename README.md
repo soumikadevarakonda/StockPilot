@@ -73,7 +73,7 @@ npm run dev
 ### 3️⃣ Run Backend (Spring Boot)
 Import backend folder into Eclipse or VS Code (Java) and run:
 ```bash
-./mvnw spring-boot:run
+git clone https://github.com/soumikadevarakonda/StockPilot-BE
 ```
 Backend runs on `http://localhost:8080`
 Frontend runs on `http://localhost:5173`
