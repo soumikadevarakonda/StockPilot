@@ -12,7 +12,11 @@ export default function Portfolio() {
   const [summary, setSummary] = useState({ invested: 0, value: 0, profitLoss: 0 });
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isTradeModalOpen, setIsTradeModalOpen] = useState(false); // ✅ modal state
+  const [isTradeModalOpen, setIsTradeModalOpen] = useState(false);
+  const [aiAdvice, setAiAdvice] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
+
   const email = "soumika@stockpilot.com";
 
   const fetchPortfolio = () => {
@@ -63,6 +67,37 @@ export default function Portfolio() {
       profitLoss: value - invested,
     });
   };
+
+    // 🧠 Get AI Advice
+  const getAiAdvice = async () => {
+    try {
+      setAiLoading(true);
+      setAiError("");
+
+      const totalValue = holdings.reduce(
+        (sum, h) => sum + h.currentPrice * h.quantity,
+        0
+      );
+
+      const aiHoldings = holdings.map((h) => ({
+        name: h.symbol,
+        sector: h.sector,
+        weight: Number((((h.currentPrice * h.quantity) / totalValue) * 100).toFixed(2)),
+      }));
+
+      const res = await axios.post("/ai/portfolio-advice", {
+        holdings: aiHoldings,
+      });
+
+      setAiAdvice(res.data);
+    } catch (err) {
+      console.error(err);
+      setAiError("Failed to get AI advice.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
 
   const COLORS = ["#00C9A7", "#0088FE", "#FFBB28", "#FF5B5B"];
   const sectorData = Object.values(
@@ -187,14 +222,25 @@ export default function Portfolio() {
                 animate={{ opacity: 1, y: 0 }}
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">Your Holdings</h3>
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-semibold">Your Holdings</h3>
+
+                    <button
+                      onClick={getAiAdvice}
+                      className="px-3 py-1.5 text-sm rounded-md bg-indigo-600 hover:bg-indigo-500 text-white transition"
+                    >
+                      🧠 Get AI Advice
+                    </button>
+                  </div>
+
                   <button
                     className="px-4 py-2 rounded-md bg-primary/80 hover:bg-primary text-white font-medium transition"
-                    onClick={() => setIsTradeModalOpen(true)} // ✅ toggles modal
+                    onClick={() => setIsTradeModalOpen(true)}
                   >
                     + Trade
                   </button>
                 </div>
+
 
                 <div className="overflow-y-auto max-h-80 rounded-md scrollbar-thin scrollbar-thumb-[hsl(217,32%,25%)] scrollbar-track-[hsl(220,10%,13%)]">
                   <table className="w-full text-sm">
@@ -243,6 +289,29 @@ export default function Portfolio() {
                 </div>
               </motion.div>
             </div>
+
+            {/* 🧠 AI RESULT BOX (separate, below everything) */}
+            {aiLoading && (
+              <div className="mt-8 p-6 rounded-xl bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)]">
+                AI is thinking...
+              </div>
+            )}
+
+            {aiError && (
+              <div className="mt-8 p-6 rounded-xl bg-red-500/10 border border-red-500 text-red-400">
+                {aiError}
+              </div>
+            )}
+
+            {aiAdvice && !aiLoading && (
+              <div className="mt-8 p-6 rounded-xl bg-[hsl(220,10%,15%)] border border-[hsl(217,32%,17%)] shadow">
+                <h3 className="text-lg font-semibold mb-3">🧠 AI Portfolio Advisor</h3>
+                <div className="whitespace-pre-wrap text-[hsl(0,0%,85%)] text-sm leading-7 tracking-wide">
+                  {aiAdvice}
+                </div>
+              </div>
+            )}
+
           </>
         )}
       </div>
