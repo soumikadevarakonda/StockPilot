@@ -21,7 +21,7 @@ export default function Navbar() {
     navigate("/");
   };
 
-  return (
+gi  return (
     <>
       {/* Sidebar (slide-in animation) */}
       <AnimatePresence>
