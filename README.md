@@ -1,8 +1,36 @@
-# 📈 StockPilot – Virtual Stock Trading Simulator
+# 📈 StockPilot – AI-Powered Virtual Stock Trading Simulator
 
-StockPilot is a beautifully designed, interactive **virtual stock trading platform** that allows users to buy and sell mock stocks, maintain a dynamic portfolio, view live watchlists, explore market news, and climb a competitive leaderboard — all with a smooth, modern UI.
+StockPilot is a beautifully designed, interactive **AI-powered virtual stock trading platform** that allows users to buy and sell mock stocks, maintain a dynamic portfolio, explore market news with AI assistance, and climb a competitive leaderboard — all with a smooth, modern UI.
 
-Built for enthusiasts, students, and developers learning market mechanics, StockPilot replicates the visual and functional experience of a real trading dashboard.
+Built for enthusiasts, students, and developers learning market mechanics, StockPilot replicates the visual and functional experience of a real trading dashboard — while teaching users **how to think** about portfolios and markets using AI.
+
+---
+
+## 🔮 AI-Powered Features
+
+### 🤖 AI Trading Advisor
+- Get **AI-generated insights** on your portfolio performance
+- Ask questions like:
+  - “What are my riskiest holdings?”
+  - “How can I rebalance my portfolio?”
+  - “Which sector am I overexposed to?”
+- AI analyzes:
+  - Your holdings
+  - Sector allocation
+  - Profit/Loss distribution
+- Returns **human-readable explanations**, not just numbers
+- Designed to teach **decision-making**, not just simulate trading
+
+### 🧠 AI Market News Intelligence
+- Every news article can be:
+  - **Summarized** into key points
+  - **Explained** in simple language
+  - **Analyzed** for potential market impact
+- One-click actions:
+  - “Summarize”
+  - “Explain like I’m new to markets”
+  - “What does this mean for stocks?”
+- Turns noisy financial news into **signal instead of confusion**
 
 ---
 
@@ -12,6 +40,7 @@ Built for enthusiasts, students, and developers learning market mechanics, Stock
 - View detailed holdings with sector classification
 - Real-time P/L calculations and graphical charts
 - Interactive **Trade Modal** for Buy/Sell
+- 🤖 **AI Advisor for portfolio analysis and suggestions**
 
 ### 🔹 Watchlist
 - 60+ mock stocks (NSE, NYSE, Crypto)
@@ -19,9 +48,13 @@ Built for enthusiasts, students, and developers learning market mechanics, Stock
 - Filter tabs and instant search
 - Polished UI for professional feel
 
-### 🔹 Market News
-- Fully static page with curated financial headlines
-- Clean card layout with images and categories
+### 🔹 Market News (AI Enhanced)
+- Curated financial news with categories
+- Clean card layout with images
+- 🧠 AI-powered:
+  - Summaries
+  - Simplified explanations
+  - Market impact analysis per article
 
 ### 🔹 Leaderboard
 - Dynamic ranking system
@@ -49,6 +82,15 @@ Built for enthusiasts, students, and developers learning market mechanics, Stock
 - Hibernate / JPA
 - MySQL / H2 (dev)
 
+### **AI Layer:**
+- LLM API integration for:
+  - Portfolio analysis
+  - News summarization
+  - Financial explanation & reasoning
+- Prompt-engineered for:
+  - Beginner-friendly explanations
+  - Actionable insights
+
 ### **Other:**
 - Dicebear (avatars)
 - Mock Data Generators
@@ -61,7 +103,7 @@ Built for enthusiasts, students, and developers learning market mechanics, Stock
 ```bash
 git clone https://github.com/soumikadevarakonda/StockPilot.git
 cd StockPilot
-```
+
 
 ### 2️⃣ Install Frontend Dependencies
 ```bash
