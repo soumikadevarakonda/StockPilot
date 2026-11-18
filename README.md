@@ -67,6 +67,14 @@ Built for enthusiasts, students, and developers learning market mechanics, Stock
 
 ---
 
+## 🌐 Deployment
+
+- Frontend: https://stockpilot-one-sigma.vercel.app
+- Backend API: https://stockpilot-backend-1qox.onrender.com
+- Database: Neon PostgreSQL
+
+---
+
 ## 🚀 Tech Stack
 
 ### **Frontend:**
