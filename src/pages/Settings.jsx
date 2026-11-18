@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import { Moon, Sun, Bell, BellOff, Settings as Cog } from "lucide-react";
 
 export default function Settings() {
-  const [user, setUser] = useState({ name: "Soumika", email: "soumika@stockpilot.com" });
+  const [user] = useState({
+    name: "Soumika",
+    email: localStorage.getItem("email") || "soumika@stockpilot.com",
+  });
   const [darkMode, setDarkMode] = useState(true);
   const [notifications, setNotifications] = useState(true);
 

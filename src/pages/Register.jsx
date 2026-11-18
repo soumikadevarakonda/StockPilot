@@ -14,9 +14,11 @@ export default function Register() {
     try {
       await axios.post("/auth/register", { name, email, password });
       alert("Registration successful! You can now log in.");
-      navigate("/");
+      navigate("/login");
     } catch (err) {
-      alert("Registration failed: " + (err.response?.data?.message || err.message));
+      const data = err.response?.data;
+      const message = typeof data === "string" ? data : data?.error || data?.message;
+      alert("Registration failed: " + (message || err.message));
     }
   };
 

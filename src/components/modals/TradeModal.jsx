@@ -28,6 +28,15 @@ export default function TradeModal({ isOpen, onClose, email, onTradeComplete }) 
       setMessage("Please fill all fields.");
       return;
     }
+    const parsedQuantity = Number(quantity);
+    if (!Number.isInteger(parsedQuantity) || parsedQuantity <= 0) {
+      setMessage("Quantity must be a positive whole number.");
+      return;
+    }
+    if (activeTab === "buy" && (!Number.isFinite(Number(price)) || Number(price) <= 0)) {
+      setMessage("Price must be greater than zero.");
+      return;
+    }
 
     setLoading(true);
     setMessage("");

@@ -10,6 +10,11 @@ import "./styles/globals.css";
 import Watchlist from "./pages/Watchlist";
 import MarketNews from "./pages/MarketNews";
 import Leaderboard from "./pages/Leaderboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+const protectedElement = (element) => (
+  <ProtectedRoute>{element}</ProtectedRoute>
+);
 
 function App() {
   return (
@@ -21,13 +26,13 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Temporarily public routes for development */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/transactions" element={<Transactions />} />
-        <Route path="/watchlist" element={<Watchlist />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/marketnews" element={<MarketNews />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/dashboard" element={protectedElement(<Dashboard />)} />
+        <Route path="/portfolio" element={protectedElement(<Portfolio />)} />
+        <Route path="/transactions" element={protectedElement(<Transactions />)} />
+        <Route path="/watchlist" element={protectedElement(<Watchlist />)} />
+        <Route path="/settings" element={protectedElement(<Settings />)} />
+        <Route path="/marketnews" element={protectedElement(<MarketNews />)} />
+        <Route path="/leaderboard" element={protectedElement(<Leaderboard />)} />
       </Routes>
     </Router>
   );

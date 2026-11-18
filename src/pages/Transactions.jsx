@@ -2,21 +2,27 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import axios from "../api/axios";
 
 export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    // Mock data consistent with Dashboard
-    setTransactions([
-      { id: 1, symbol: "AAPL", type: "BUY", qty: 5, price: 175, date: "2025-11-01" },
-      { id: 2, symbol: "TSLA", type: "SELL", qty: 2, price: 710, date: "2025-10-28" },
-      { id: 3, symbol: "INFY", type: "BUY", qty: 4, price: 1420, date: "2025-10-25" },
-      { id: 4, symbol: "RELIANCE", type: "BUY", qty: 3, price: 2600, date: "2025-10-20" },
-      { id: 5, symbol: "TCS", type: "BUY", qty: 2, price: 3620, date: "2025-10-15" },
-      { id: 6, symbol: "HDFC", type: "SELL", qty: 1, price: 1620, date: "2025-10-10" },
-      { id: 7, symbol: "ICICIBANK", type: "BUY", qty: 5, price: 975, date: "2025-10-05" },
-    ]);
+    const email = localStorage.getItem("email") || "soumika@stockpilot.com";
+    axios
+      .get(`/transactions/${email}`)
+      .then((res) => {
+        const normalized = res.data.map((t) => ({
+          id: t.id,
+          symbol: t.stock?.symbol || "N/A",
+          type: t.type,
+          qty: t.quantity,
+          price: t.price,
+          date: t.timestamp ? new Date(t.timestamp).toLocaleDateString() : "—",
+        }));
+        setTransactions(normalized);
+      })
+      .catch(() => setTransactions([]));
   }, []);
 
   const totalTrades = transactions.length;

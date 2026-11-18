@@ -21,7 +21,7 @@ export default function Dashboard() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    const email = "soumika@stockpilot.com";
+    const email = localStorage.getItem("email") || "soumika@stockpilot.com";
     const token = localStorage.getItem("token");
 
     // Fetch profile
@@ -135,7 +135,7 @@ export default function Dashboard() {
                 </thead>
                 <tbody>
                   {holdings.map((h) => {
-                    const pnl = ((h.currentPrice - h.avgPrice) * h.qty).toFixed(2);
+                    const pnl = Number(((h.currentPrice - h.avgPrice) * h.qty).toFixed(2));
                     const isProfit = pnl >= 0;
                     const changePct = (((h.currentPrice - h.avgPrice) / h.avgPrice) * 100).toFixed(1);
                     return (

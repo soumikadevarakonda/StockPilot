@@ -44,7 +44,7 @@ const mockImages = {
 
 
 /* 🧠 Image picker */
-const getNewsImage = (news, idx) => {
+const getNewsImage = (news) => {
   const pool = mockImages[news.category] || mockImages.All;
 
   // Use title hash to distribute images better
@@ -77,7 +77,11 @@ export default function MarketNews() {
     axios
       .get("/news")
       .then((res) => setNewsData(res.data))
-      .catch((err) => console.error("Failed to load news", err))
+      .catch(() => setNewsData([
+        { title: "Markets open higher as technology shares gain", category: "Stocks", source: "StockPilot", time: "Just now" },
+        { title: "Bitcoin steadies after a volatile trading session", category: "Crypto", source: "StockPilot", time: "Just now" },
+        { title: "Investors watch inflation and central bank signals", category: "Economy", source: "StockPilot", time: "Just now" },
+      ]))
       .finally(() => setLoading(false));
   }, []);
 

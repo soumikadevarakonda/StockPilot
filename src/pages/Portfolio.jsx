@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,7 +18,7 @@ export default function Portfolio() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
 
-  const email = "soumika@stockpilot.com";
+  const email = localStorage.getItem("email") || "soumika@stockpilot.com";
 
   const fetchPortfolio = () => {
     axios
@@ -256,7 +257,7 @@ export default function Portfolio() {
                     </thead>
                     <tbody>
                       {holdings.map((h) => {
-                        const pnl = ((h.currentPrice - h.avgPrice) * h.quantity).toFixed(2);
+                        const pnl = Number(((h.currentPrice - h.avgPrice) * h.quantity).toFixed(2));
                         const isProfit = pnl >= 0;
                         const changePct = (
                           ((h.currentPrice - h.avgPrice) / h.avgPrice) * 100

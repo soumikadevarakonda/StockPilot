@@ -13,9 +13,12 @@ export default function Login() {
     try {
       const response = await axios.post("/auth/login", { email, password });
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("email", response.data.user?.email || email);
       navigate("/dashboard");
     } catch (err) {
-      alert("Login failed: " + (err.response?.data?.message || err.message));
+      const data = err.response?.data;
+      const message = typeof data === "string" ? data : data?.error || data?.message;
+      alert("Login failed: " + (message || err.message));
     }
   };
 
